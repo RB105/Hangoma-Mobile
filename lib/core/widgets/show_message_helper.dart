@@ -1,5 +1,5 @@
 import 'package:fluttertoast/fluttertoast.dart';
 
-Future<bool?> showMessageHelper({required String msg}) {
+Future<bool?> showMessageHelper(String msg) {
   return Fluttertoast.showToast(msg: msg);
 }

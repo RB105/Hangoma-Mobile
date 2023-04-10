@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "633047036963",
+    "project_id": "hangoma-mobile",
+    "storage_bucket": "hangoma-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:633047036963:android:1281ff2fc1ce417168ad96",
+        "android_client_info": {
+          "package_name": "com.example.hangomamobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "633047036963-09b7817e8dmv2pus28mslnm92ikc32qd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hangomamobile",
+            "certificate_hash": "eb074d1380909123e9726278998383cd19878a5b"
+          }
+        },
+        {
+          "client_id": "633047036963-vhcn61ketuspjcm7d1r92dee478s2725.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0e9RFVgtw403G1GZA6RnDoY0uFK4_6I0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "633047036963-vhcn61ketuspjcm7d1r92dee478s2725.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

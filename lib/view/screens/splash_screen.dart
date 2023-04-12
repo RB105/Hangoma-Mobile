@@ -32,9 +32,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void checkUser() {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
-        Navigator.popAndPushNamed(context, '/');
+        Navigator.pushNamed(context, '/');
       } else {
-        Navigator.popAndPushNamed(context, 'register');
+        Navigator.pushNamed(context, 'register');
       }
     });
   }

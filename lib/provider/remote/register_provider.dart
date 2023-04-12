@@ -11,15 +11,18 @@ class RegisterProvider extends ChangeNotifier {
   bool isLoading = false;
 
   // To sign up logic . . .
-  Future<dynamic> register() async {
+  Future<void> register(BuildContext context) async {
+    isLoading = true;
+    notifyListeners();
     try {
-      isLoading = true;
-      notifyListeners();
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-      isLoading = false;
-      notifyListeners();
-      return true;
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailController.text, password: passwordController.text)
+          .then((value) {
+        isLoading = false;
+        notifyListeners();
+        Navigator.popAndPushNamed(context, '/');
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         isLoading = false;

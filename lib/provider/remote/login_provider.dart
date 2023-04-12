@@ -11,15 +11,18 @@ class LoginProvider extends ChangeNotifier {
   bool isLoading = false;
 
   // To sign in logic . . .
-  Future<bool> login() async {
+  Future<void> login(BuildContext context) async {
+    isLoading = true;
+    notifyListeners();
     try {
-      isLoading = true;
-      notifyListeners();
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-      isLoading = false;
-      notifyListeners();
-      return true;
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: emailController.text, password: passwordController.text)
+          .then((value) {
+        isLoading = false;
+        notifyListeners();
+        Navigator.pushNamed(context, '/');
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         showMessageHelper("User not found");
@@ -34,7 +37,6 @@ class LoginProvider extends ChangeNotifier {
         isLoading = false;
         notifyListeners();
       }
-      return false;
     }
   }
 }

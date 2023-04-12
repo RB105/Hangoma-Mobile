@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hangomamobile/core/router/router.dart';
 import 'package:hangomamobile/core/theme/dark_mode.dart';
 import 'package:hangomamobile/core/theme/light_mode.dart';
+import 'package:hangomamobile/provider/local/theme_provider.dart';
+import 'package:hangomamobile/provider/remote/chat_provider.dart';
 import 'package:hangomamobile/provider/remote/login_provider.dart';
 import 'package:hangomamobile/provider/remote/register_provider.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +20,12 @@ void main(List<String> args) async {
       ),
       ChangeNotifierProvider(
         create: (context) => LoginProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => ChatProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => ThemeProvider(),
       )
     ],
     child: const MyApp(),

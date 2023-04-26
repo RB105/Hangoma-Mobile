@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hangomamobile/core/widgets/image_picker_widget.dart';
 import 'package:hangomamobile/provider/remote/chat_provider.dart';
+import 'package:hangomamobile/service/local/image_picker_service.dart';
 import 'package:hangomamobile/view/screens/drawer_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -75,58 +77,73 @@ class _HomePageState extends State<HomePage> {
                         child: ListView.builder(
                           controller: scrollController,
                           itemCount: data.length,
-                          itemBuilder: (context, index) {   
-                            if ( data[index]['token'] ==
-                                      FirebaseAuth.instance.currentUser!.uid) {
+                          itemBuilder: (context, index) {
+                            if (data[index]['token'] ==
+                                FirebaseAuth.instance.currentUser!.uid) {
                               return Row(
-                              mainAxisAlignment: 
-                                   MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "${data[index]['user'].toString()} : ",
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.all(8),
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: const BoxDecoration(
-                                      color: Colors.blue,
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          bottomLeft: Radius.circular(20))),
-                                  child: Text(
-                                    data[index]['message'].toString(),
-                                    style: const TextStyle(
-                                        fontSize: 16, color: Colors.white),
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "${data[index]['user'].toString()} : ",
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
                                   ),
-                                ),
-                              ],
-                            );
+                                  Flexible(
+                                    child: Container(
+                                      height: size.height * 0.06,
+                                      margin: const EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: const BoxDecoration(
+                                          color: Colors.blue,
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(20),
+                                              bottomLeft: Radius.circular(20))
+                                          //
+                                          ),
+                                      child: Text(
+                                        data[index]['message'].toString(),
+                                        maxLines: 10,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            fontSize: 15, color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
                             } else {
                               return Row(
-                              mainAxisAlignment: 
-                                   MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.all(8),
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: const BoxDecoration(
-                                      color: Colors.blue,
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(20),
-                                          bottomRight: Radius.circular(20))),
-                                  child: Text(
-                                    data[index]['message'].toString(),
-                                    style: const TextStyle(
-                                        fontSize: 16, color: Colors.white),
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: const BoxDecoration(
+                                        color: Colors.blue,
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(20),
+                                            bottomRight: Radius.circular(20))
+                                        //
+                                        ),
+                                    child: Text(
+                                      data[index]['message'].toString(),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 5,
+                                      style: const TextStyle(
+                                          fontSize: 16, color: Colors.white),
+                                    ),
                                   ),
-                                ),
-                                 Text(
-                                  "${data[index]['user'].toString()} : ",
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                              ],
-                            );
+                                  SizedBox(
+                                    child: Text(
+                                      "${data[index]['user'].toString()} : ",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                    ),
+                                  ),
+                                ],
+                              );
                             }
                           },
                         ),
@@ -174,7 +191,14 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                      flex: 10,
+                      flex: 2,
+                      child: IconButton(
+                          onPressed: ()  {
+                            showDialog(context: context, builder: (context) => const ImagePickerWidget());
+                          },
+                          icon: const Icon(Icons.attach_file))),
+                  Expanded(
+                      flex: 8,
                       child: TextFormField(
                         style:
                             const TextStyle(color: Colors.black, fontSize: 20),

@@ -29,9 +29,9 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.exit_to_app),
             title: const Text('Logout'),
-            onTap: ()  {
+            onTap: () async {
               Navigator.pushNamedAndRemoveUntil(context, 'register', (route) => false);
-             // await FirebaseAuth.instance.signOut(); That's used in realise mode
+              await FirebaseAuth.instance.signOut();
             },
           ),
         ],

@@ -8,7 +8,13 @@ class LightThemeMode {
           iconTheme: IconThemeData(color: Colors.white),
           centerTitle: true),
       textTheme: const TextTheme(
+         displayLarge: TextStyle(color: Colors.black, fontSize: 40),
+          displayMedium: TextStyle(color: Colors.black, fontSize: 20),
+          displaySmall: TextStyle(color: Colors.black),
           bodyLarge: TextStyle(color: Colors.black, fontSize: 40),
           bodyMedium: TextStyle(color: Colors.black, fontSize: 20),
-          bodySmall: TextStyle(color: Colors.black)));
+          bodySmall: TextStyle(color: Colors.black)
+          )
+          
+          );
 }

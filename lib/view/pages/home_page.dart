@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hangomamobile/core/extension/context_size_ext.dart';
 import 'package:hangomamobile/core/widgets/image_picker_widget.dart';
+import 'package:hangomamobile/core/widgets/message_editor_widget.dart';
 import 'package:hangomamobile/provider/remote/chat_provider.dart';
-import 'package:hangomamobile/service/local/image_picker_service.dart';
 import 'package:hangomamobile/view/screens/drawer_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +40,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     ChatProvider chatProvider = Provider.of<ChatProvider>(context);
     return ChangeNotifierProvider(
       create: (context) => ChatProvider(),
@@ -64,7 +64,9 @@ class _HomePageState extends State<HomePage> {
                 );
               } else {
                 List<Map<String, dynamic>> data = [];
+                List<String> ides = [];
                 snapshot.data!.docs.map((e) {
+                  ides.add(e.id);
                   data.add(e.data() as Map<String, dynamic>);
                 }).toList();
                 if (data.isEmpty) {
@@ -73,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                   return Stack(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(bottom: size.height * 0.08),
+                        padding: EdgeInsets.only(bottom: context.height * 0.08),
                         child: ListView.builder(
                           controller: scrollController,
                           itemCount: data.length,
@@ -89,58 +91,121 @@ class _HomePageState extends State<HomePage> {
                                         Theme.of(context).textTheme.bodySmall,
                                   ),
                                   Flexible(
-                                    child: Container(
-                                      height: size.height * 0.06,
-                                      margin: const EdgeInsets.all(8),
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: const BoxDecoration(
-                                          color: Colors.blue,
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(20),
-                                              bottomLeft: Radius.circular(20))
-                                          //
-                                          ),
-                                      child: Text(
-                                        data[index]['message'].toString(),
-                                        maxLines: 10,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            fontSize: 15, color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
+                                      child: !data[index]['message']
+                                              .toString()
+                                              .contains(
+                                                  "https://firebasestorage.googleapis.com/")
+                                          ? Container(
+                                              height: context.height * 0.06,
+                                              margin: const EdgeInsets.all(8),
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: const BoxDecoration(
+                                                  color: Colors.blue,
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                          topLeft: Radius
+                                                              .circular(20),
+                                                          bottomLeft:
+                                                              Radius.circular(
+                                                                  20))
+                                                  //
+                                                  ),
+                                              child: InkWell(
+                                                onLongPress: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          MessageEditorWidget(id: ides[index],message: data[index]['message'].toString(),));
+                                                },
+                                                child: Text(
+                                                  data[index]['message']
+                                                      .toString(),
+                                                  maxLines: 10,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            )
+                                          : Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: SizedBox(
+                                                  width: context.width * 0.5,
+                                                  child: ClipRRect(
+                                                      borderRadius:
+                                                          const BorderRadius.only(
+                                                              bottomLeft: Radius
+                                                                  .circular(30),
+                                                              topLeft: Radius
+                                                                  .circular(30),
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                      30)),
+                                                      child: Image.network(
+                                                          data[index]['message']
+                                                              .toString()))),
+                                            )),
                                 ],
                               );
                             } else {
                               return Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    margin: const EdgeInsets.all(8),
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: const BoxDecoration(
-                                        color: Colors.blue,
-                                        borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(20),
-                                            bottomRight: Radius.circular(20))
-                                        //
-                                        ),
-                                    child: Text(
-                                      data[index]['message'].toString(),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 5,
-                                      style: const TextStyle(
-                                          fontSize: 16, color: Colors.white),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    child: Text(
-                                      "${data[index]['user'].toString()} : ",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 3,
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall,
-                                    ),
+                                  Flexible(
+                                      child: !data[index]['message']
+                                              .toString()
+                                              .contains(
+                                                  "https://firebasestorage.googleapis.com/")
+                                          ? Container(
+                                              margin: const EdgeInsets.all(8),
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: const BoxDecoration(
+                                                  color: Colors.blue,
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                          topRight: Radius
+                                                              .circular(20),
+                                                          bottomRight:
+                                                              Radius.circular(
+                                                                  20))
+                                                  //
+                                                  ),
+                                              child: Text(
+                                                data[index]['message']
+                                                    .toString(),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 10,
+                                                style: const TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.white),
+                                              ),
+                                            )
+                                          : Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: SizedBox(
+                                                  width: context.width * 0.5,
+                                                  child: ClipRRect(
+                                                      borderRadius:
+                                                          const BorderRadius.only(
+                                                              bottomRight: Radius
+                                                                  .circular(30),
+                                                              topLeft: Radius
+                                                                  .circular(30),
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                      30)),
+                                                      child: Image.network(
+                                                          data[index]['message']
+                                                              .toString()))),
+                                            )),
+                                  Text(
+                                    "${data[index]['user'].toString()} : ",
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
                                   ),
                                 ],
                               );
@@ -153,8 +218,8 @@ class _HomePageState extends State<HomePage> {
                           right: 0,
                           child: Padding(
                             padding: EdgeInsets.only(
-                                bottom: size.height * 0.09,
-                                right: size.width * 0.01),
+                                bottom: context.height * 0.09,
+                                right: context.width * 0.01),
                             child: Visibility(
                               visible: isVisible,
                               child: FloatingActionButton.small(
@@ -180,7 +245,7 @@ class _HomePageState extends State<HomePage> {
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: Container(
             width: double.infinity,
-            height: size.height * 0.08,
+            height: context.height * 0.08,
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(15),
@@ -193,8 +258,11 @@ class _HomePageState extends State<HomePage> {
                   Expanded(
                       flex: 2,
                       child: IconButton(
-                          onPressed: ()  {
-                            showDialog(context: context, builder: (context) => const ImagePickerWidget());
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    const ImagePickerWidget());
                           },
                           icon: const Icon(Icons.attach_file))),
                   Expanded(

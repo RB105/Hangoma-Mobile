@@ -9,13 +9,24 @@ class ChatService {
   Future<void> sendMessage({required String message}) async {
     try {
       await messages.add({
-        "message":message,
+        "message": message,
         "token": FirebaseAuth.instance.currentUser!.uid,
-        "user":FirebaseAuth.instance.currentUser!.email.toString(),
-        "created_at":FieldValue.serverTimestamp()
+        "user": FirebaseAuth.instance.currentUser!.email.toString(),
+        "created_at": FieldValue.serverTimestamp()
       });
     } on FirebaseException catch (e) {
       showMessageHelper(e.toString());
     }
+  }
+
+  static Future<void> removeData(String id) async {
+   await FirebaseFirestore.instance.doc("messages/$id").delete();
+  }
+
+  static Future<void> updateData(String id,String message) async {
+   await FirebaseFirestore.instance.doc("messages/$id").set({"message": message,
+        "token": FirebaseAuth.instance.currentUser!.uid,
+        "user": FirebaseAuth.instance.currentUser!.email.toString(),
+        "created_at": FieldValue.serverTimestamp()});
   }
 }

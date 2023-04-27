@@ -27,8 +27,15 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
+            leading: const Icon(Icons.settings),
+            title:  Text('Settings',style: Theme.of(context).textTheme.displayMedium,),
+            onTap: ()  {
+              Navigator.pushNamed(context,"settings");
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.exit_to_app),
-            title: const Text('Logout'),
+            title:  Text('Logout',style: Theme.of(context).textTheme.displayMedium,),
             onTap: () async {
               Navigator.pushNamedAndRemoveUntil(context, 'register', (route) => false);
               await FirebaseAuth.instance.signOut();

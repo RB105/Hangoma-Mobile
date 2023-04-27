@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hangomamobile/view/auth/login_page.dart';
 import 'package:hangomamobile/view/auth/register_page.dart';
 import 'package:hangomamobile/view/pages/home_page.dart';
+import 'package:hangomamobile/view/pages/settings_page.dart';
 import 'package:hangomamobile/view/screens/splash_screen.dart';
 
 class RouteGenerator {
@@ -20,6 +21,8 @@ class RouteGenerator {
         return _navigate(const SplashScreen());
       case 'register':
         return _navigate(const RegisterPage());
+      case 'settings':
+        return _navigate(const SettingPage());
       case 'login':
         return _navigate(const LoginPage());
     }

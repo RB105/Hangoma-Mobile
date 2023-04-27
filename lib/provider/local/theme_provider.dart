@@ -5,7 +5,6 @@ class ThemeProvider extends ChangeNotifier {
   void changeTheme(BuildContext context) {
     if (AdaptiveTheme.of(context).mode == AdaptiveThemeMode.dark) {
       AdaptiveTheme.of(context).setLight();
-
       notifyListeners();
     } else {
       notifyListeners();
